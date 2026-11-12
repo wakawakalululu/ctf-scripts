@@ -106,6 +106,11 @@ def scan_scripts(root='.'):
             except OSError:
                 lines = 0
             desc = module_docstring_first_line(full)
+            if not desc:
+                # 老脚本没有 docstring: 父目录名即题型说明(如 RSA综合脚本利用/已知 e、n…)
+                parent = os.path.basename(os.path.dirname(full))
+                if parent and parent != top and parent != '.':
+                    desc = f'(老脚本) {parent}'
             deps = third_party_deps(full)
             selftest = bool(re.search(
                 r"add_argument\(\s*['\"]--selftest", src))
@@ -141,8 +146,8 @@ def render_index(scripts):
                '`python gen_index.py` 刷新本文件; '
                '`python gen_index.py --check` 可校验是否过期。')
     out.append('>')
-    out.append('> 说明列取自脚本模块 docstring 首行; 标"—"为早期收集的老脚本, '
-               '用法见 README 对应分类表或脚本内注释。')
+    out.append('> 说明列取自脚本模块 docstring 首行; “(老脚本) 目录名”表示早期收集的'
+               '无 docstring 脚本, 按目录题型理解, 用法见 README 对应分类表或脚本内注释。')
     out.append('> 依赖列只列**第三方包**(安装: `pip install -r requirements.txt`, '
                '环境自检: `python check_env.py`)。')
     out.append('')
