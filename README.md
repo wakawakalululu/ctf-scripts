@@ -256,5 +256,5 @@ Pwn/符号执行(建议 WSL):`pwntools` `angr` `LibcSearcher`
 
 ## 更新日志
 
-- **2026-11-13** 全库体检:175 个脚本 Python3 语法全部通过,17 个带 `--selftest` 的脚本实测全部 OK;新增 `gen_index.py` 一键生成全量索引 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)(176 个脚本逐个列出说明/依赖/自测,`--check` 可进 CI);README 增加关联项目章节;补装 libnum / sympy / owiener / rsa 轻依赖。
+- **2026-11-13** 全库体检:175 个脚本 Python3 语法全部通过,17 个带 `--selftest` 的脚本实测全部 OK;新增 `gen_index.py` 一键生成全量索引 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)(176 个脚本逐个列出说明/依赖/自测,`--check` 可进 CI);新增 GitHub Actions CI(全库语法编译 + 索引一致性检查)与 `.gitattributes` 统一换行;README 增加关联项目章节;补装 libnum / sympy / owiener / rsa 轻依赖。
 - **2026-11-12** 收录 Des-CTF-Knowledge 全量做题脚本:新增 Crypto/Encoding/Web/Pwn/Reverse/Misc 六大类与 Steganography/TrafficeAnalysis/LogAnalysis 补充工具共 86 个目录;新增 `check_env.py` 依赖自检;重写 README 分类索引。

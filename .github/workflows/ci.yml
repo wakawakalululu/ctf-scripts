@@ -1,0 +1,25 @@
+name: ci
+
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      # 1) 全库语法编译(任何一个 .py 语法错误即失败)
+      - name: Syntax compile all scripts
+        run: python -m compileall -q -x '__pycache__' .
+
+      # 2) 依赖汇总(信息性输出,不判失败)
+      - name: Dependency report
+        run: python check_env.py --deps
+
+      # 3) 脚本索引与仓库内容一致(新增脚本后忘记刷新索引即失败)
+      - name: Scripts index freshness
+        run: python gen_index.py --check
