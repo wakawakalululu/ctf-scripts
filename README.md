@@ -42,6 +42,10 @@ python Misc/zip伪加密修复/zip_fix.py fake_enc.zip --fix
 python Steganography/二维码解码/qr_decode.py flag.png
 ```
 
+> 找某个具体脚本?全量 176 个 .py 的自动索引见 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)
+> (由 `python gen_index.py` 生成,含每个脚本的说明 / 第三方依赖 / 自测标记;
+> 新增脚本后重跑一次即可刷新,`python gen_index.py --check` 可校验是否过期)。
+
 ---
 
 ## TrafficeAnalysis/ — 流量分析
@@ -241,6 +245,16 @@ Pwn/符号执行(建议 WSL):`pwntools` `angr` `LibcSearcher`
 
 不确定哪个脚本缺什么:`python check_env.py --missing`
 
+## 关联项目与工具
+
+| 项目 | 说明 | 位置 |
+|---|---|---|
+| CTF-misc-awd | AWD 攻防一体化工具(Rust) | 本机 `E:\Snow\Desktop\CTF\2026\local\CTF-misc-awd` |
+| Fenjing | Jinja2 SSTI 自动化利用(本库 `Web/SSTI利用/` 的进阶替代) | 本机 `E:\Snow\Desktop\CTF\2026\local\CTF-Web-H\CTF-Web-H\Fenjing`,上游 [Marven11/Fenjing](https://github.com/Marven11/Fenjing) |
+| changan-cup-forensics-kit | 长安杯取证工具箱(装机 / 分类启动 / 检材分析) | 本机 `workspace/2026/取证/changan-cup-forensics-kit` |
+| ctf-tools | 常用工具本体(AntSword / CyberChef / DIE / dirsearch) | 本机 `workspace/2026/ctf-tools` |
+
 ## 更新日志
 
+- **2026-11-13** 全库体检:175 个脚本 Python3 语法全部通过,17 个带 `--selftest` 的脚本实测全部 OK;新增 `gen_index.py` 一键生成全量索引 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)(176 个脚本逐个列出说明/依赖/自测,`--check` 可进 CI);README 增加关联项目章节;补装 libnum / sympy / owiener / rsa 轻依赖。
 - **2026-11-12** 收录 Des-CTF-Knowledge 全量做题脚本:新增 Crypto/Encoding/Web/Pwn/Reverse/Misc 六大类与 Steganography/TrafficeAnalysis/LogAnalysis 补充工具共 86 个目录;新增 `check_env.py` 依赖自检;重写 README 分类索引。
