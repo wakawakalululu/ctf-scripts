@@ -1,1 +1,30 @@
-pyshark~=0.6
+# =============================================================
+# ctf-scripts 依赖清单
+# 基线: Python >= 3.8 (推荐 3.10 / 3.12)
+# 安装: pip install -r requirements.txt
+# 环境自检: python check_env.py [--missing | --deps]
+# =============================================================
+
+# ---------- 核心组(多数脚本通用, 全平台) ----------
+requests
+pillow
+pycryptodome
+pyzipper
+numpy
+opencv-python
+z3-solver
+pyshark
+
+# ---------- 可选组(按需安装) ----------
+# scapy              # TrafficeAnalysis/流量数据提取脚本
+# pyzbar             # 二维码解码第二引擎(Windows 需另装 VC++ 运行库)
+# unicorn            # Reverse/ARM模拟调试器
+# capstone
+# ds_store           # Web/DS_Store解析
+# qrcode             # Steganography/字节转二维码
+# gmpy2 libnum sympy owiener rsa   # 部分 RSA 老脚本
+
+# ---------- WSL / Linux 专用组(Pwn 与符号执行) ----------
+# pwntools
+# angr
+# LibcSearcher
