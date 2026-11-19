@@ -1,25 +1,25 @@
 # SCRIPTS-INDEX — 全量脚本索引
 
-> 由 `gen_index.py` 自动生成, 覆盖仓库内**每一个 .py 脚本**(共 188 个)。新增/修改脚本后运行 `python gen_index.py` 刷新本文件; `python gen_index.py --check` 可校验是否过期。
+> 由 `gen_index.py` 自动生成, 覆盖仓库内**每一个 .py 脚本**(共 195 个)。新增/修改脚本后运行 `python gen_index.py` 刷新本文件; `python gen_index.py --check` 可校验是否过期。
 >
 > 说明列取自脚本模块 docstring 首行; “(老脚本) 目录名”表示早期收集的无 docstring 脚本, 按目录题型理解, 用法见 README 对应分类表或脚本内注释。
 > 依赖列只列**第三方包**(安装: `pip install -r requirements.txt`, 环境自检: `python check_env.py`)。
 
 ## 目录
 
-- [Crypto — 密码学 (51)](#crypto--密码学-51)
+- [Crypto — 密码学 (53)](#crypto--密码学-53)
 - [Encoding — 编码转换 (31)](#encoding--编码转换-31)
-- [Steganography — 隐写 (18)](#steganography--隐写-18)
-- [TrafficeAnalysis — 流量分析 (23)](#trafficeanalysis--流量分析-23)
-- [LogAnalysis — 日志分析 (2)](#loganalysis--日志分析-2)
+- [Steganography — 隐写 (19)](#steganography--隐写-19)
+- [TrafficeAnalysis — 流量分析 (24)](#trafficeanalysis--流量分析-24)
+- [LogAnalysis — 日志分析 (3)](#loganalysis--日志分析-3)
 - [Web — Web 安全 (13)](#web--web-安全-13)
 - [Pwn — 二进制漏洞利用 (6)](#pwn--二进制漏洞利用-6)
-- [Reverse — 逆向 (6)](#reverse--逆向-6)
-- [Misc — 杂项 (25)](#misc--杂项-25)
+- [Reverse — 逆向 (7)](#reverse--逆向-7)
+- [Misc — 杂项 (26)](#misc--杂项-26)
 - [Writeups — WP 实战做题脚本 (11)](#writeups--wp-实战做题脚本-11)
 - [仓库工具(根目录) (2)](#仓库工具根目录-2)
 
-## Crypto — 密码学 (51)
+## Crypto — 密码学 (53)
 
 > 密码学:RSA 全家桶 / 古典密码 / 对称加密 / 哈希
 
@@ -67,6 +67,7 @@
 | `TEA加解密/tea_xtea.py` | tea_xtea TEA / XTEA 加解密(64位块, 128位密钥) | — | ✅ `--selftest` | 145 |
 | `toy密码/toy.py` | (老脚本) toy密码 | — | — | 19 |
 | `XOR自动爆破/xor_brute.py` | XOR 爆破工具(补充题型: Crypto/Reverse 通用) | — | — | 127 |
+| `云影密码/yunying.py` | yunying.py — 云影密码(0/8 密码)编解码(攻防世界等平台高频 misc) | — | ✅ `--selftest` | 108 |
 | `变异凯撒/encode_caesar.py` | (老脚本) 变异凯撒 | — | — | 9 |
 | `变异凯撒/variant_caesar.py` | (老脚本) 变异凯撒 | — | — | 9 |
 | `哈希长度扩展攻击/hash_ext.py` | hash_ext 哈希长度扩展攻击(md5/sha1) | — | ✅ `--selftest` | 196 |
@@ -76,6 +77,7 @@
 | `摩斯密码/morse.py` | 摩斯密码 加解密脚本(补充题型: Crypto/编码) | — | — | 128 |
 | `栅栏密码/railfence.py` | 栅栏密码(Rail Fence Cipher) 加解密与爆破(补充题型: Crypto/古典密码) | — | — | 128 |
 | `维吉尼亚加密/exp.py` | (老脚本) 维吉尼亚加密 | — | — | 11 |
+| `维吉尼亚密钥爆破/vigenere_brute.py` | vigenere_brute.py — 维吉尼亚密码密钥爆破(重合指数 + 卡方频率分析) | — | ✅ `--selftest` | 183 |
 
 ## Encoding — 编码转换 (31)
 
@@ -115,7 +117,7 @@
 | `进制转化字符脚本/二进制转ascii/1.py` | (老脚本) 二进制转ascii | — | — | 9 |
 | `进制转化字符脚本/循环遍历减去1-128数的ASCII码.py` | (老脚本) 进制转化字符脚本 | — | — | 15 |
 
-## Steganography — 隐写 (18)
+## Steganography — 隐写 (19)
 
 > 隐写:图片 / 音频 / 零宽字符 / 二维码
 
@@ -135,12 +137,13 @@
 | `图片爆破宽高/2.py` | (老脚本) 图片爆破宽高 | — | — | 30 |
 | `图片马生成/imgshell.py` | imgshell 图片马生成/校验 | pillow | ✅ `--selftest` | 104 |
 | `字节转二维码/200-erweima.py` | (老脚本) 字节转二维码 | pillow | — | 15 |
+| `文件尾数据检测/carve_tail.py` | carve_tail.py — 图片/文件尾部追加数据检测与剥离(隐写经典套路) | — | ✅ `--selftest` | 171 |
 | `红绿灯-二进制/traffic.py` | (老脚本) 红绿灯-二进制 | pillow | — | 29 |
 | `零宽字符隐写/zwstego.py` | zwstego 零宽字符隐写 编码/解码 | — | ✅ `--selftest` | 127 |
 | `音频摩斯解析/audio_morse.py` | audio_morse 音频摩斯码解析(wav) | — | ✅ `--selftest` | 181 |
 | `频域盲水印/pinyubwm.py` | (老脚本) 频域盲水印 | numpy, opencv-python | — | 57 |
 
-## TrafficeAnalysis — 流量分析 (23)
+## TrafficeAnalysis — 流量分析 (24)
 
 > 流量分析:USB / WEB / 邮件 / Telnet / 修复(一键入口 solve.py)
 
@@ -154,12 +157,13 @@
 | `find_scanner.py` | find_scanner.py — WEB扫描器识别(题型:黑客使用的是什么扫描器?) | — | — | 105 |
 | `find_webshell.py` | find_webshell.py — WEBSHELL 上传/连接分析(题型:黑客上传的webshell文件名和内容是什么?) | — | — | 133 |
 | `generate.py` | — | — | — | 12 |
+| `ICMP数据提取/icmp_data.py` | icmp_data.py — 提取 ICMP echo 数据(纯标准库, 不依赖 scapy/tshark) | — | ✅ `--selftest` | 195 |
 | `len2hex.py` | — | pyshark | — | 17 |
 | `make_samples.py` | make_samples.py — 生成各题型的测试流量包(用于验证上面所有脚本能直接出解) | — | — | 499 |
 | `pcapfix.py` | pcapfix.py — CTF 流量包修复(对应题型:流量包修复) | — | — | 138 |
 | `pcaplib.py` | pcaplib.py — CTF 流量分析公共库(纯 Python 标准库实现,无需 scapy/pyshark) | — | — | 730 |
 | `smtp_mail.py` | smtp_mail.py — SMTP/POP3 邮件流量分析(题型:邮件里藏flag/附件) | — | — | 143 |
-| `solve.py` | solve.py — 一键流量分析:自动识别流量类型,调用对应脚本出解(总入口) | — | — | 145 |
+| `solve.py` | solve.py — 一键流量分析:自动识别流量类型,调用对应脚本出解(总入口) | — | — | 176 |
 | `telnet_session.py` | telnet_session.py — Telnet 流量还原(题型:telnet 明文口令/命令找flag) | — | — | 123 |
 | `TTL隐写/TTL-encode.py` | (老脚本) TTL隐写 | — | — | 20 |
 | `TTL隐写/TTL-stego.py` | (老脚本) TTL隐写 | — | — | 31 |
@@ -170,13 +174,14 @@
 | `USB鼠标流量解析/usb_mouse.py` | usb_mouse USB 鼠标流量还原轨迹 | pillow | ✅ `--selftest` | 165 |
 | `流量数据提取脚本/1.py` | 从 pcap 提取 ICMP 回显响应(type 0) payload 末 8 字节(py3 移植版) | scapy | — | 23 |
 
-## LogAnalysis — 日志分析 (2)
+## LogAnalysis — 日志分析 (3)
 
 > 日志分析
 
 | 脚本 | 说明 | 依赖 | 自测 | 行数 |
 |---|---|---|---|---|
 | `__init__.py` | — | — | — | 1 |
+| `access_log分析/access_log_analyze.py` | access_log_analyze.py — Nginx/Apache 访问日志统计分析(蓝队/取证必备) | — | ✅ `--selftest` | 229 |
 | `日志匹配/1.py` | (老脚本) 日志匹配 | — | — | 11 |
 
 ## Web — Web 安全 (13)
@@ -212,7 +217,7 @@
 | `shellcode生成与解析/shellcode_generator.py` | shellcode_generator 直接汇编生成 shellcode | pwntools | — | 80 |
 | `shellcode生成与解析/shellcode_parser.py` | shellcode_parser 从 .s 源码汇编出 ELF 并提取 .text 中的 shellcode | pwntools | — | 60 |
 
-## Reverse — 逆向 (6)
+## Reverse — 逆向 (7)
 
 > 逆向:z3 / angr / pyc 修复 / ARM 模拟
 
@@ -221,11 +226,12 @@
 | `angr求解模板/angr_template.py` | angr 符号执行 CTF 模板(补充题型: Reverse) | angr | — | 67 |
 | `angr虚拟机混淆解题/burforce_vm.py` | burforce_vm angr 爆破虚拟机混淆题目 | angr | — | 70 |
 | `ARM模拟调试器/arm_dbg.py` | arm_dbg 基于 unicorn 的 ARM 模拟调试器 | capstone, unicorn | — | 280 |
+| `Frida hook模板/frida_hook.py` | frida_hook.py — Frida hook 脚本生成器(安卓逆向/CTF mobile 常用) | — | ✅ `--selftest` | 209 |
 | `pyc文件头修复/pyc_fix.py` | pyc 文件头修复(补充题型: Reverse/pyc) | — | — | 166 |
 | `z3求解模板/z3_template.py` | z3 约束求解 CTF 模板(补充题型: Reverse) | z3-solver | — | 90 |
 | `相邻异或还原/xor.py` | xor.py 相邻字符异或链还原 flag(逆向题常见编码) | — | ✅ `--selftest` | 77 |
 
-## Misc — 杂项 (25)
+## Misc — 杂项 (26)
 
 > 杂项:压缩包 / 文件修复 / CRC32 / 迷宫 / Brainfuck
 
@@ -245,6 +251,7 @@
 | `zip伪加密修复/zip_fix.py` | ZIP 伪加密检测与修复(补充题型: Misc/压缩包) | — | — | 115 |
 | `zip密码爆破/zip_brute.py` | ZIP 密码爆破(补充题型: Misc/压缩包) | pyzipper | — | 119 |
 | `一些比赛的脚本/祥云杯-xixixi/1.py` | (老脚本) 祥云杯-xixixi | — | — | 84 |
+| `坐标画图/coord_plot.py` | coord_plot.py — 坐标点/连线画图(misc 高频: 给一堆坐标求 flag 图) | pillow | ✅ `--selftest` | 160 |
 | `批量修改文件名后缀/modify-suffix.py` | (老脚本) 批量修改文件名后缀 | — | — | 16 |
 | `批量解压压缩包+带密码/zip.py` | (老脚本) 批量解压压缩包+带密码 | — | — | 8 |
 | `数学题/取模/1.py` | (老脚本) 取模 | — | — | 6 |

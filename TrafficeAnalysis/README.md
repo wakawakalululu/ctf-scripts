@@ -17,12 +17,13 @@ tshark 提取,没有也能用内置纯 Python 解析器,双引擎结果一致。
 | USB鼠标流量 | `usb_mouse.py` | `python usb_mouse.py x.pcap [out.png]` | 4字节 HID 报告累积坐标 → PIL 画轨迹图(all/left/right 三种模式) |
 | SMTP/POP3邮件 | `smtp_mail.py` | `python smtp_mail.py x.pcap [导出目录]` | DATA 段 MIME 解析、RFC2047 头解码、base64/QP 正文、附件导出 |
 | Telnet明文 | `telnet_session.py` | `python telnet_session.py x.pcap` | 剥 IAC 协商字节,按包序交错还原会话,自动配对 login:/Password: |
+| ICMP隐写传数据 | `ICMP数据提取/icmp_data.py` | `python icmp_data.py x.pcap [--save out.bin --hex]` | 纯标准库解析 echo request/reply payload,拼接+flag 搜索(支持 4 种链路层) |
 | 文件提取(通用) | `extract_objects.py` | `python extract_objects.py x.pcap [导出目录]` | HTTP 对象导出 + 全流量按魔数切割(png/jpg/zip/pdf...) |
 | **一键自动分析** | `solve.py` | `python solve.py x.pcap` | 识别流量类型 → 调用对应脚本 → 汇总所有 flag |
 
 `solve.py` 识别规则:USB 链路层(usbmon 220 / USBPcap 249)→ USB 套件;
-23 端口 → telnet;25/110/587 → mail;80/8080 → web;无法解析先自动 pcapfix;
-最后做全文 flag 正则 + base64 候选搜索兜底。
+23 端口 → telnet;25/110/587 → mail;80/8080 → web;仅有 ICMP echo 无常见端口时 → icmp_data;
+无法解析先自动 pcapfix;最后做全文 flag 正则 + base64 候选搜索兜底。
 
 ## 2026-11 新增子工具
 

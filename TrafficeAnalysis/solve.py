@@ -8,6 +8,7 @@ solve.py — 一键流量分析:自动识别流量类型,调用对应脚本出�
                                      / find_webshell / extract_objects
   SMTP/POP3 端口流量               -> smtp_mail.py
   Telnet 端口流量                  -> telnet_session.py
+  ICMP echo 流量(无其他常见端口)   -> icmp_data.py
   任意类型                         -> 全文 flag 正则 + base64 候选搜索
 
 用法: python solve.py <pcap>
@@ -32,7 +33,27 @@ def pick_script(kind, pcap):
                 'find_webshell.py', 'extract_objects.py'],
         'mail': ['smtp_mail.py'],
         'telnet': ['telnet_session.py'],
+        'icmp': ['icmp_data.py'],
     }.get(kind, [])
+
+
+def icmp_strip(data, linktype):
+    """链路层剥头(与 icmp_data.py 一致), 用于 ICMP 计数。"""
+    if linktype == pcaplib.LINKTYPE_ETHERNET:
+        return pcaplib.parse_ether(data)
+    if linktype == pcaplib.LINKTYPE_NULL:
+        import struct
+        af = struct.unpack('<I', data[:4])[0] if len(data) >= 4 else 2
+        return ('ipv4' if af in (2, 0x02000000) else 'ipv6'), data[4:]
+    if linktype == pcaplib.LINKTYPE_RAW:
+        return ('ipv4' if data and data[0] >> 4 == 4 else 'ipv6'), data
+    if linktype == pcaplib.LINKTYPE_SLL:
+        import struct
+        if len(data) < 16:
+            return None, b''
+        et = struct.unpack('>H', data[14:16])[0]
+        return {0x0800: 'ipv4', 0x86dd: 'ipv6'}.get(et), (data[16:] if et in (0x0800, 0x86dd) else b'')
+    return None, b''
 
 
 def detect(pcap):
@@ -42,9 +63,19 @@ def detect(pcap):
         return 'usb', '链路层=%s (USB)' % pcaplib.get_linktype_name(lt)
     # 端口统计
     ports = {}
+    icmp_cnt = 0
+    for p in pkts:
+        # ICMP(proto=1) 不在 l4_packets(TCP/UDP) 统计里, 单独数
+        nl, l4 = icmp_strip(p.data, lt)
+        if nl == 'ipv4':
+            ip = pcaplib.parse_ipv4(l4)
+            if ip and ip['proto'] == 1:
+                icmp_cnt += 1
     for (src, sp, dst, dp, proto, seq, fl, pl, ts, idx) in pcaplib.l4_packets(pkts, lt):
         for p in (sp, dp):
             ports[p] = ports.get(p, 0) + 1
+    if icmp_cnt and not any(p in (80, 8080, 8000, 8001, 8081) for p in ports):
+        return 'icmp', '发现 %d 个 ICMP 包' % icmp_cnt
     if ports.get(23, 0) > 0:
         return 'telnet', '发现 %d 个 telnet(23) 包' % ports[23]
     if ports.get(25, 0) or ports.get(110, 0) or ports.get(587, 0):

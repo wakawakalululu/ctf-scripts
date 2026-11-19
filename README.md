@@ -1,6 +1,6 @@
 # ctf-scripts
 
-CTF 做题脚本集:188 个现成脚本,覆盖 **Web / Pwn / Reverse / Crypto / Misc / 隐写 / 流量 / 日志 / WP 实战** 九大类。
+CTF 做题脚本集:195 个现成脚本,覆盖 **Web / Pwn / Reverse / Crypto / Misc / 隐写 / 流量 / 日志 / WP 实战** 九大类。
 每个脚本可直接运行;较新的脚本**无参数运行即跑内置自测**(输出 `OK/FAIL`),实战时按用法传参或修改硬编码参数。
 
 ## 环境
@@ -47,7 +47,7 @@ python Writeups/代码审计/flask-session解密/session.py --selftest
 python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 ```
 
-> 找某个具体脚本?全量 188 个 .py 的自动索引见 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)
+> 找某个具体脚本?全量 195 个 .py 的自动索引见 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)
 > (由 `python gen_index.py` 生成,含每个脚本的说明 / 第三方依赖 / 自测标记;
 > 新增脚本后重跑一次即可刷新,`python gen_index.py --check` 可校验是否过期)。
 
@@ -66,6 +66,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | `find_login.py` | 账号爆破分析,判定登录成功的账密 | `python find_login.py x.pcap` |
 | `find_webshell.py` | webshell 上传分析(multipart+菜刀/蚁剑) | `python find_webshell.py x.pcap [导出目录]` |
 | `usb_keyboard.py` | USB 键盘 HID 键码还原(含 Shift) | `python usb_keyboard.py x.pcap [--raw]` |
+| `ICMP数据提取/icmp_data.py` | ICMP echo payload 提取(纯标准库,4 种链路层) | `python icmp_data.py x.pcap [--save out.bin --hex]` |
 | `usb_mouse.py` | USB 鼠标轨迹画图(all/left/right) | `python usb_mouse.py x.pcap [out.png]` |
 | `smtp_mail.py` | SMTP/POP3 邮件解析+附件导出 | `python smtp_mail.py x.pcap [导出目录]` |
 | `telnet_session.py` | Telnet 会话还原+凭据配对 | `python telnet_session.py x.pcap` |
@@ -85,6 +86,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 |---|---|---|
 | `decode_image.py` | Base64 字符串还原为 PNG 图片 | 修改脚本内 base64 后运行 |
 | `LSB隐写/lsb.py` | PNG LSB 嵌入/提取(4 字节长度头) | `-x 图片.png` 提取 / `-e 图片.png --secret flag{}` 嵌入 |
+| `文件尾数据检测/carve_tail.py` | PNG/JPG/GIF/ZIP/PDF 尾部附加数据检测+剥离 | `python carve_tail.py x.jpg [--save tail.bin --strip]` |
 | `频域盲水印/pinyubwm.py` | 频域盲水印提取(opencv) | `python pinyubwm.py --original 原图 --image 水印图 --result out.png` |
 | `图片爆破宽高/` | PNG IHDR 宽高 CRC32 爆破恢复 | 修改脚本内 CRC 值与图片路径后运行 |
 | `PNG结构分析/png_analyze.py` | PNG 块列举/提取+CRC 批量修复+tEXt 预览 | `python png_analyze.py list x.png` / `fix-crc` |
@@ -106,6 +108,8 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 |---|---|---|
 | `RSA综合脚本利用/` | **19 种 RSA 攻击场景**全集(小明文/共模/Wiener/dp泄露/CRT/pq接近等) | 按已知条件找对应子目录,改参数运行 |
 | `factordb查询/factordb.py` | factordb 在线分解 n + 本地试除/Pollard rho 兜底 | `python factordb.py -n <N>`(离线加 `--local`) |
+| `维吉尼亚密钥爆破/vigenere_brute.py` | 维吉尼亚无密钥爆破(重合指数定长+卡方定移位) | `python vigenere_brute.py cipher.txt [--keylen N --crib flag{]` |
+| `云影密码/yunying.py` | 云影密码(0/8 密码)编解码 | `python yunying.py -d "8842101226885448"` / `-e HELLO` |
 | `AES加解密模板/aes_template.py` | AES ECB/CBC 加解密,hex/base64 自动识别,PKCS7 | `python aes_template.py -m d -a ecb -k <hex密钥> -c <密文>` |
 | `DES_Python-master/` | Python DES 实现 | `from des import DES`(详见其 README.md) |
 | `TEA加解密/tea_xtea.py` | TEA/XTEA 加解密,delta/rounds 可调 | `python tea_xtea.py --algo xtea -a d -k KEY -c HEX` |
@@ -170,6 +174,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | `pyc文件头修复/pyc_fix.py` | pyc 头修复(2.7~3.13 magic 表,自动探测头长/版本) | `python pyc_fix.py broken.pyc -o fixed.pyc` |
 | `ARM模拟调试器/arm_dbg.py` | unicorn ARM 模拟调试(断点/单步/内存 dump) | `python arm_dbg.py --demo`;实战改 `run_demo()` 后 `--demo` 进入交互 |
 | `相邻异或还原/xor.py` | 相邻字符异或链还原 flag(a^b=c ⇒ a^c=b) | `python xor.py` 解内置数据 / `--selftest` |
+| `Frida hook模板/frida_hook.py` | Frida hook JS 生成器(java/native/crypto/replace 4 类模板) | `python frida_hook.py java --class com.x.Main --method check` |
 
 ## Pwn/ — 二进制漏洞利用
 
@@ -199,6 +204,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | `文件异或/` | 文件级 XOR(hex 异或/010editor/二进制) | 改数据运行 |
 | `批量修改文件名后缀/modify-suffix.py` | 批量追加后缀(如 .jpg) | 修改 path 后运行 |
 | `Python-Brainfuck-master/` | Brainfuck 解释器 | 代码放 `1.txt` 后 `python brainfuck.py` |
+| `坐标画图/coord_plot.py` | 坐标文本画图(每行 x,y 或空格多对,多笔画分隔,自动归一化) | `python coord_plot.py points.txt -o out.png [--mode point]` |
 | `robot迷宫求解/robot_maze.py` | 文本/图片迷宫求解最短路+随机迷宫生成 | `python robot_maze.py --solve maze.txt` / `--pic maze.png` |
 | `迷宫路径记录GUI/maze_run.py` | 方向键走迷宫,记录 wasd 序列(GUI) | `python maze_run.py --chars 起点,终点,墙 --out out.txt` |
 | `数学题/取模/` | 取模等数学计算辅助 | 改数据运行 |
@@ -210,6 +216,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | 脚本/目录 | 用途 | 用法 |
 |---|---|---|
 | `日志匹配/1.py` | 从 URL 编码的 LFI 日志中提取被包含文件的输出 | 日志放 `data.txt` 后运行 |
+| `access_log分析/access_log_analyze.py` | Nginx/Apache 日志统计:Top IP/URI/状态码+SQLi/扫描器/webshell/爆破检测 | `python access_log_analyze.py access.log [--top 10 --burst 60 --grep flag]` |
 
 ## Writeups/ — WP 实战做题脚本
 
@@ -240,8 +247,10 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | pcap 里 TTL 值奇怪(63/127/191/255) | `TrafficeAnalysis/TTL隐写/` |
 | pcap 要提文件/扫描器/账密/webshell | `TrafficeAnalysis/extract_objects.py`、`find_*.py`(或直接 `solve.py` 一键) |
 | pcap 有邮件/Telnet | `TrafficeAnalysis/smtp_mail.py`、`telnet_session.py` |
+| pcap 里 ICMP echo payload 藏数据 | `TrafficeAnalysis/ICMP数据提取/icmp_data.py`(或 `solve.py` 自动识别) |
 | 流量包损坏打不开 | `TrafficeAnalysis/pcapfix.py` |
 | 图片打不开/尺寸不对 | `Steganography/图片爆破宽高/`、`PNG结构分析/png_analyze.py` |
+| 图片能打开但怀疑尾巴藏了 zip/文本 | `Steganography/文件尾数据检测/carve_tail.py` |
 | PNG LSB / 盲水印 / steghide / 零宽 | `Steganography/` 对应目录 |
 | GIF 帧延时 / 音频摩斯 / 二维码 | `Steganography/GIF帧时间隐写/`、`音频摩斯解析/`、`二维码解码/` |
 | 数据是 0/1 矩阵 / RGB 元组 / 图片序列 | `字节转二维码/`、`RGB转图片/`、`红绿灯-二进制/` |
@@ -252,6 +261,8 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | RSA 各种攻击 | `Crypto/RSA综合脚本利用/` 按已知条件选;先 `factordb.py -n` 试分解 |
 | AES/DES/TEA 对称加密 | `Crypto/AES加解密模板/`、`DES_Python-master/`、`TEA加解密/` |
 | 古典密码(摩斯/培根/栅栏/维吉尼亚/凯撒变体…) | `Crypto/` 对应目录 |
+| 维吉尼亚密文不知道密钥 | `Crypto/维吉尼亚密钥爆破/vigenere_brute.py`(IC+卡方自动破) |
+| 密文全是 0 和 8(数字串按 0 分段) | `Crypto/云影密码/yunying.py` |
 | Base64 解出来乱码 / 多次编码 / 换表 | `Encoding/Base/` 对应子工具 |
 | hex 倒序 / 减偏移 / 二进制反转 | `Encoding/hex倒叙/`、`hex减位/`、`二进制每8位倒序/` |
 | SQL 盲注 / SSTI / JWT / PHP 反序列化 | `Web/` 对应目录 |
@@ -268,7 +279,10 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | 逆向 dump 出相邻异或数组 | `Reverse/相邻异或还原/xor.py` |
 | ret2libc / 格式化字符串 / shellcode | `Pwn/pwntools模板/`、`Pwn/shellcode生成与解析/` |
 | LFI 日志包含提取 | `LogAnalysis/日志匹配/` |
+| access log 统计/找攻击者/爆破 IP | `LogAnalysis/access_log分析/access_log_analyze.py` |
 | Brainfuck / 迷宫 | `Misc/Python-Brainfuck-master/`、`robot迷宫求解/` |
+| 一堆坐标画图出 flag | `Misc/坐标画图/coord_plot.py` |
+| 安卓 Java/native 函数 hook、抓 Cipher 密钥 | `Reverse/Frida hook模板/frida_hook.py` |
 
 ## 依赖速查
 
@@ -291,6 +305,15 @@ Pwn/符号执行(建议 WSL):`pwntools` `angr` `LibcSearcher`
 
 ## 更新日志
 
+- **2026-11-20** 全库体检:32 个 `--selftest` 脚本实测全部通过,全库编译零错误,与 origin 同步。**新增 7 个脚本填补分类缺口**:
+  - `LogAnalysis/access_log分析/access_log_analyze.py` — Nginx/Apache 日志统计(Top IP/URI/状态码)+ SQLi/扫描器/webshell/爆破检测(蓝队/取证题型,LogAnalysis 此前仅 1 个脚本);
+  - `TrafficeAnalysis/ICMP数据提取/icmp_data.py` — 纯标准库 ICMP echo payload 提取(4 种链路层,自测含内存构造 pcap 回解),并挂入 `solve.py` 一键入口(无常见端口但有 ICMP 时自动调用);
+  - `Steganography/文件尾数据检测/carve_tail.py` — PNG/JPG/GIF/ZIP/PDF 尾部附加数据检测/导出/剥离;
+  - `Misc/坐标画图/coord_plot.py` — 坐标文本画图(一行多坐标对、多笔画分隔、自动归一化翻转 Y);
+  - `Crypto/云影密码/yunying.py` — 云影密码(0/8)编解码;
+  - `Crypto/维吉尼亚密钥爆破/vigenere_brute.py` — 重合指数定密钥长 + 卡方频率定移位,无密钥自动破(自测含真实英文语料爆破还原);
+  - `Reverse/Frida hook模板/frida_hook.py` — Frida hook JS 生成器(java/native/crypto/replace 4 类模板,不依赖 frida 运行时即可生成)。
+  全部带 docstring 用法与离线 `--selftest`(共 7 个新增自测);同步更新特征速查/依赖说明;上游 zelat/ctf-scripts 无新提交。
 - **2026-11-19** 收录 Des-CTF-Knowledge `WP汇总` 全部 12 个真题做题脚本,新增 **Writeups/** 分类(SSTI/代码审计/文件上传/文件包含,各题型目录保留原题解 README,新分类使用说明见 [Writeups/README.md](Writeups/README.md));补收 `Reverse/相邻异或还原/xor.py`(全库比对确认此前仅漏这两处)。新脚本按仓库规范补齐 docstring / `--url` 参数化 / 离线 `--selftest`(1.py、EasySearch、session、tpupload2、affine、hill、idna、xor 共 8 个新增自测)。`gen_index.py`、`check_env.py` 增补 itsdangerous/flask 依赖映射,requirements.txt 加入 itsdangerous;上游 zelat/ctf-scripts 无新提交。
 
 - **2026-11-13** 全库体检:175 个脚本 Python3 语法全部通过,17 个带 `--selftest` 的脚本实测全部 OK;新增 `gen_index.py` 一键生成全量索引 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)(176 个脚本逐个列出说明/依赖/自测,`--check` 可进 CI);新增 GitHub Actions CI(全库语法编译 + 索引一致性检查)与 `.gitattributes` 统一换行;README 增加关联项目章节;补装 libnum / sympy / owiener / rsa 轻依赖。
