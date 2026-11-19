@@ -1,6 +1,6 @@
 # ctf-scripts
 
-CTF 做题脚本集:100+ 现成脚本,覆盖 **Web / Pwn / Reverse / Crypto / Misc / 隐写 / 流量 / 日志** 八大类。
+CTF 做题脚本集:188 个现成脚本,覆盖 **Web / Pwn / Reverse / Crypto / Misc / 隐写 / 流量 / 日志 / WP 实战** 九大类。
 每个脚本可直接运行;较新的脚本**无参数运行即跑内置自测**(输出 `OK/FAIL`),实战时按用法传参或修改硬编码参数。
 
 ## 环境
@@ -24,6 +24,7 @@ ctf-scripts/
 ├── Pwn/                    # pwntools 模板 / shellcode
 ├── Reverse/                # z3 / angr / pyc修复 / ARM模拟
 ├── Misc/                   # 压缩包 / 文件修复 / CRC32 / 迷宫 / Brainfuck
+├── Writeups/               # WP 实战做题脚本(SSTI/代码审计/文件上传/文件包含, 自带原题解 README)
 └── files/                  # 示例流量包(capture.pcap / Modbus.pcap 等)
 ```
 
@@ -40,9 +41,13 @@ python Web/JWT伪造/jwt_forge.py --selftest
 # 实战示例
 python Misc/zip伪加密修复/zip_fix.py fake_enc.zip --fix
 python Steganography/二维码解码/qr_decode.py flag.png
+
+# WP 实战脚本(离线自测)
+python Writeups/代码审计/flask-session解密/session.py --selftest
+python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 ```
 
-> 找某个具体脚本?全量 176 个 .py 的自动索引见 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)
+> 找某个具体脚本?全量 188 个 .py 的自动索引见 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)
 > (由 `python gen_index.py` 生成,含每个脚本的说明 / 第三方依赖 / 自测标记;
 > 新增脚本后重跑一次即可刷新,`python gen_index.py --check` 可校验是否过期)。
 
@@ -164,6 +169,7 @@ python Steganography/二维码解码/qr_decode.py flag.png
 | `angr虚拟机混淆解题/burforce_vm.py` | angr 爆破 VM 混淆题(地址参数化) | `python burforce_vm.py 二进制 --find ADDR --avoid ADDR` |
 | `pyc文件头修复/pyc_fix.py` | pyc 头修复(2.7~3.13 magic 表,自动探测头长/版本) | `python pyc_fix.py broken.pyc -o fixed.pyc` |
 | `ARM模拟调试器/arm_dbg.py` | unicorn ARM 模拟调试(断点/单步/内存 dump) | `python arm_dbg.py --demo`;实战改 `run_demo()` 后 `--demo` 进入交互 |
+| `相邻异或还原/xor.py` | 相邻字符异或链还原 flag(a^b=c ⇒ a^c=b) | `python xor.py` 解内置数据 / `--selftest` |
 
 ## Pwn/ — 二进制漏洞利用
 
@@ -205,6 +211,25 @@ python Steganography/二维码解码/qr_decode.py flag.png
 |---|---|---|
 | `日志匹配/1.py` | 从 URL 编码的 LFI 日志中提取被包含文件的输出 | 日志放 `data.txt` 后运行 |
 
+## Writeups/ — WP 实战做题脚本
+
+> 收录比赛/靶场真题利用链脚本(源自 Des-CTF-Knowledge `WP汇总`),**各题型目录自带原始题解 README.md**;
+> 分类内详细用法与题目对照见 [Writeups/README.md](Writeups/README.md)。原脚本硬编码的 buuoj 地址已改为 `--url` 参数,复用时替换目标即可。
+
+| 脚本 | 题目/场景 | 用法 |
+|---|---|---|
+| `SSTI/自定义字符集异或编码/1.py` | [pasecactf_2019]flask_ssti 编码绕过 | `python 1.py` 还原内置密文(encode 自逆) |
+| `SSTI/遍历子类找os索引/SSTIFindSubprocess.py` | FlaskLight 类:定位 `__subclasses__()` 中 os 下标 | `python SSTIFindSubprocess.py -u "http://x/?search="` |
+| `代码审计/md5前缀爆破/EasySearch.py` | [BJDCTF2020]EasySearch | `python EasySearch.py`(默认爆 deadbeef)/ `--prefix --max --all` |
+| `代码审计/htaccess上传LFI综合利用/EasyWeb.py` | [SUCTF 2019]EasyWeb(取反绕过+.htaccess+php://filter) | `python EasyWeb.py -u 上传接口`(利用链见 docstring) |
+| `代码审计/flask-session解密/session.py` | Flask session cookie 明文解密(无需密钥) | `python session.py "ey...sig"` / `--selftest`(依赖 itsdangerous) |
+| `文件上传/thinkphp上传文件名爆破/tpupload.py` | [RoarCTF 2019]Simple Upload(uniqid 文件名爆破) | `python tpupload.py -u 目录 --prefix 62189f4 --start 234 --mid bcdef --tail 1234567890abcdef` |
+| `文件上传/thinkphp上传文件名爆破/tpupload2.py` | 同上:泄露片段算候选字符集 | `python tpupload2.py -a 4 -b e` |
+| `文件包含/仿射密码爆破/affine_cipher.py` | 仿射密码加密/全组合爆破 | `python affine_cipher.py -e -m 明文 -a 5 -b 8` / `-c 密文 --marker fla` |
+| `文件包含/希尔密码加解密/hill_cipher.py` | 希尔密码矩阵加解密(模 26 逆矩阵) | `python hill_cipher.py`(改 a/b/m 复用) |
+| `文件包含/idna编码绕过探测/idna_unicode_bypass.py` | [SUCTF 2019]Pythonginx(IDNA 字符绕过) | `python idna_unicode_bypass.py`(128~65537 全扫) |
+| `文件包含/phpfilter崩溃LFI/lfi_php_filter_exploit.py` | [WMCTF2020]Make PHP Great Again(strip_tags 崩溃临时文件) | `python lfi_php_filter_exploit.py -u "http://x/?file=php://filter/string.strip_tags/resource=..."` |
+
 ---
 
 ## 特征速查:遇到什么用什么
@@ -232,14 +257,22 @@ python Steganography/二维码解码/qr_decode.py flag.png
 | SQL 盲注 / SSTI / JWT / PHP 反序列化 | `Web/` 对应目录 |
 | .git / .DS_Store 泄露 | `Web/Git泄漏解析/`、`DS_Store解析/` |
 | SSRF 打内网 Redis | `Web/gopher协议生成/` |
+| SSTI 编码绕过 / 找 os 子类下标 | `Writeups/SSTI/` |
+| Flask session cookie 看明文 | `Writeups/代码审计/flask-session解密/session.py` |
+| md5 数字前缀校验 | `Writeups/代码审计/md5前缀爆破/EasySearch.py` |
+| .htaccess 上传 LFI / strip_tags 崩溃 LFI | `Writeups/代码审计/htaccess上传LFI综合利用/`、`Writeups/文件包含/phpfilter崩溃LFI/` |
+| 上传后文件名被 uniqid 重写 | `Writeups/文件上传/thinkphp上传文件名爆破/` |
+| 仿射 / 希尔密码 | `Writeups/文件包含/仿射密码爆破/`、`希尔密码加解密/` |
+| URL 校验用 Unicode/IDNA 字符绕过 | `Writeups/文件包含/idna编码绕过探测/` |
 | 约束求解 / 符号执行 / pyc 修复 | `Reverse/z3求解模板/`、`angr求解模板/`、`pyc文件头修复/` |
+| 逆向 dump 出相邻异或数组 | `Reverse/相邻异或还原/xor.py` |
 | ret2libc / 格式化字符串 / shellcode | `Pwn/pwntools模板/`、`Pwn/shellcode生成与解析/` |
 | LFI 日志包含提取 | `LogAnalysis/日志匹配/` |
 | Brainfuck / 迷宫 | `Misc/Python-Brainfuck-master/`、`robot迷宫求解/` |
 
 ## 依赖速查
 
-核心:`requests` `pillow` `pycryptodome` `pyzipper` `numpy` `opencv-python` `z3-solver` `pyshark`
+核心:`requests` `pillow` `pycryptodome` `pyzipper` `numpy` `opencv-python` `z3-solver` `pyshark` `itsdangerous`
 可选:`scapy` `pyzbar` `unicorn` `ds_store` `gmpy2` `libnum` `sympy` `owiener`
 Pwn/符号执行(建议 WSL):`pwntools` `angr` `LibcSearcher`
 
@@ -253,8 +286,12 @@ Pwn/符号执行(建议 WSL):`pwntools` `angr` `LibcSearcher`
 | Fenjing | Jinja2 SSTI 自动化利用(本库 `Web/SSTI利用/` 的进阶替代) | 本机 `E:\Snow\Desktop\CTF\2026\local\CTF-Web-H\CTF-Web-H\Fenjing`,上游 [Marven11/Fenjing](https://github.com/Marven11/Fenjing) |
 | changan-cup-forensics-kit | 长安杯取证工具箱(装机 / 分类启动 / 检材分析) | 本机 `workspace/2026/取证/changan-cup-forensics-kit` |
 | ctf-tools | 常用工具本体(AntSword / CyberChef / DIE / dirsearch) | 本机 `workspace/2026/ctf-tools` |
+| mohe-ctf(魔盒) | CTF 一站式工具箱(PyInstaller 打包,含工具镜像管理) | 本机 `workspace/2026/temp_repos/mohe-ctf` |
+| blueteam-log-analyzer | 蓝队日志分析 CLI(本库 `LogAnalysis/` 的进阶替代) | 本机 `workspace/2026/temp_repos/blueteam-log-analyzer` |
 
 ## 更新日志
+
+- **2026-11-19** 收录 Des-CTF-Knowledge `WP汇总` 全部 12 个真题做题脚本,新增 **Writeups/** 分类(SSTI/代码审计/文件上传/文件包含,各题型目录保留原题解 README,新分类使用说明见 [Writeups/README.md](Writeups/README.md));补收 `Reverse/相邻异或还原/xor.py`(全库比对确认此前仅漏这两处)。新脚本按仓库规范补齐 docstring / `--url` 参数化 / 离线 `--selftest`(1.py、EasySearch、session、tpupload2、affine、hill、idna、xor 共 8 个新增自测)。`gen_index.py`、`check_env.py` 增补 itsdangerous/flask 依赖映射,requirements.txt 加入 itsdangerous;上游 zelat/ctf-scripts 无新提交。
 
 - **2026-11-13** 全库体检:175 个脚本 Python3 语法全部通过,17 个带 `--selftest` 的脚本实测全部 OK;新增 `gen_index.py` 一键生成全量索引 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)(176 个脚本逐个列出说明/依赖/自测,`--check` 可进 CI);新增 GitHub Actions CI(全库语法编译 + 索引一致性检查)与 `.gitattributes` 统一换行;README 增加关联项目章节;补装 libnum / sympy / owiener / rsa 轻依赖。
 - **2026-11-12** 收录 Des-CTF-Knowledge 全量做题脚本:新增 Crypto/Encoding/Web/Pwn/Reverse/Misc 六大类与 Steganography/TrafficeAnalysis/LogAnalysis 补充工具共 86 个目录;新增 `check_env.py` 依赖自检;重写 README 分类索引。

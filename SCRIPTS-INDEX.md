@@ -1,6 +1,6 @@
 # SCRIPTS-INDEX — 全量脚本索引
 
-> 由 `gen_index.py` 自动生成, 覆盖仓库内**每一个 .py 脚本**(共 176 个)。新增/修改脚本后运行 `python gen_index.py` 刷新本文件; `python gen_index.py --check` 可校验是否过期。
+> 由 `gen_index.py` 自动生成, 覆盖仓库内**每一个 .py 脚本**(共 188 个)。新增/修改脚本后运行 `python gen_index.py` 刷新本文件; `python gen_index.py --check` 可校验是否过期。
 >
 > 说明列取自脚本模块 docstring 首行; “(老脚本) 目录名”表示早期收集的无 docstring 脚本, 按目录题型理解, 用法见 README 对应分类表或脚本内注释。
 > 依赖列只列**第三方包**(安装: `pip install -r requirements.txt`, 环境自检: `python check_env.py`)。
@@ -14,8 +14,9 @@
 - [LogAnalysis — 日志分析 (2)](#loganalysis--日志分析-2)
 - [Web — Web 安全 (13)](#web--web-安全-13)
 - [Pwn — 二进制漏洞利用 (6)](#pwn--二进制漏洞利用-6)
-- [Reverse — 逆向 (5)](#reverse--逆向-5)
+- [Reverse — 逆向 (6)](#reverse--逆向-6)
 - [Misc — 杂项 (25)](#misc--杂项-25)
+- [Writeups — WP 实战做题脚本 (11)](#writeups--wp-实战做题脚本-11)
 - [仓库工具(根目录) (2)](#仓库工具根目录-2)
 
 ## Crypto — 密码学 (51)
@@ -211,7 +212,7 @@
 | `shellcode生成与解析/shellcode_generator.py` | shellcode_generator 直接汇编生成 shellcode | pwntools | — | 80 |
 | `shellcode生成与解析/shellcode_parser.py` | shellcode_parser 从 .s 源码汇编出 ELF 并提取 .text 中的 shellcode | pwntools | — | 60 |
 
-## Reverse — 逆向 (5)
+## Reverse — 逆向 (6)
 
 > 逆向:z3 / angr / pyc 修复 / ARM 模拟
 
@@ -222,6 +223,7 @@
 | `ARM模拟调试器/arm_dbg.py` | arm_dbg 基于 unicorn 的 ARM 模拟调试器 | capstone, unicorn | — | 280 |
 | `pyc文件头修复/pyc_fix.py` | pyc 文件头修复(补充题型: Reverse/pyc) | — | — | 166 |
 | `z3求解模板/z3_template.py` | z3 约束求解 CTF 模板(补充题型: Reverse) | z3-solver | — | 90 |
+| `相邻异或还原/xor.py` | xor.py 相邻字符异或链还原 flag(逆向题常见编码) | — | ✅ `--selftest` | 77 |
 
 ## Misc — 杂项 (25)
 
@@ -255,12 +257,30 @@
 | `迷宫路径记录GUI/maze_run.py` | maze_run 迷宫路线方向键记录器(GUI) | — | — | 84 |
 | `遍历读取压缩包文件判断1和0/批量图片二进制.py` | (老脚本) 遍历读取压缩包文件判断1和0 | — | — | 35 |
 
+## Writeups — WP 实战做题脚本 (11)
+
+> WP 实战做题脚本:SSTI / 代码审计 / 文件上传 / 文件包含 真题利用链
+
+| 脚本 | 说明 | 依赖 | 自测 | 行数 |
+|---|---|---|---|---|
+| `SSTI/自定义字符集异或编码/1.py` | 1.py SSTI 自定义字符集异或编码还原([pasecactf_2019]flask_ssti) | — | ✅ `--selftest` | 65 |
+| `SSTI/遍历子类找os索引/SSTIFindSubprocess.py` | SSTIFindSubprocess.py SSTI 遍历 __subclasses__ 定位 os 模块索引 | requests | — | 61 |
+| `代码审计/flask-session解密/session.py` | session.py Flask session cookie 解密(明文查看) | flask, itsdangerous | ✅ `--selftest` | 95 |
+| `代码审计/htaccess上传LFI综合利用/EasyWeb.py` | EasyWeb.py .htaccess 上传 + php://filter LFI 综合利用([SUCTF 2019]EasyWeb) | requests | — | 66 |
+| `代码审计/md5前缀爆破/EasySearch.py` | EasySearch.py MD5 前缀爆破([BJDCTF2020]EasySearch) | — | ✅ `--selftest` | 72 |
+| `文件上传/thinkphp上传文件名爆破/tpupload.py` | tpupload.py ThinkPHP 上传文件名爆破([RoarCTF 2019]Simple Upload) | requests | — | 66 |
+| `文件上传/thinkphp上传文件名爆破/tpupload2.py` | tpupload2.py uniqid 文件名前后缀定位辅助([RoarCTF 2019]Simple Upload) | — | ✅ `--selftest` | 58 |
+| `文件包含/idna编码绕过探测/idna_unicode_bypass.py` | idna_unicode_bypass.py IDNA Unicode 字符绕过探测([SUCTF 2019]Pythonginx) | — | ✅ `--selftest` | 66 |
+| `文件包含/phpfilter崩溃LFI/lfi_php_filter_exploit.py` | lfi_php_filter_exploit.py php://filter 崩溃留临时文件 + 包含 getshell | requests | — | 54 |
+| `文件包含/仿射密码爆破/affine_cipher.py` | affine_cipher.py 仿射密码加密与爆破(带模 26 逆元表) | — | ✅ `--selftest` | 107 |
+| `文件包含/希尔密码加解密/hill_cipher.py` | hill_cipher.py 希尔密码(Hill Cipher)模 26 加解密 | numpy | ✅ `--selftest` | 106 |
+
 ## 仓库工具(根目录) (2)
 
 | 脚本 | 说明 | 依赖 | 自测 | 行数 |
 |---|---|---|---|---|
 | `check_env.py` | check_env 脚本库环境自检 | — | — | 202 |
-| `gen_index.py` | gen_index 全库脚本索引生成器 | — | — | 248 |
+| `gen_index.py` | gen_index 全库脚本索引生成器 | — | — | 249 |
 
 ---
 

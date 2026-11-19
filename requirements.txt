@@ -14,6 +14,7 @@ numpy
 opencv-python
 z3-solver
 pyshark
+itsdangerous          # Writeups/flask-session解密
 
 # ---------- 可选组(按需安装) ----------
 # scapy              # TrafficeAnalysis/流量数据提取脚本

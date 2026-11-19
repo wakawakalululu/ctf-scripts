@@ -25,7 +25,7 @@ PIP_NAME = {
     'pyzipper': 'pyzipper', 'pyzbar': 'pyzbar', 'qrcode': 'qrcode',
     'numpy': 'numpy', 'requests': 'requests', 'unicorn': 'unicorn',
     'capstone': 'capstone', 'angr': 'angr', 'LibcSearcher': 'LibcSearcher',
-    'owiener': 'owiener',
+    'owiener': 'owiener', 'itsdangerous': 'itsdangerous', 'flask': 'flask',
 }
 # 平台受限依赖 -> 运行环境建议
 PLATFORM_NOTE = {

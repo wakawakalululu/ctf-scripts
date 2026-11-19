@@ -28,7 +28,7 @@ PIP_NAME = {
     'numpy': 'numpy', 'requests': 'requests', 'unicorn': 'unicorn',
     'capstone': 'capstone', 'angr': 'angr', 'LibcSearcher': 'LibcSearcher',
     'owiener': 'owiener', 'pyshark': 'pyshark', 'ds_store': 'ds_store',
-    'rsa': 'rsa',
+    'rsa': 'rsa', 'itsdangerous': 'itsdangerous', 'flask': 'flask',
 }
 
 # 顶级目录 -> 类别说明(顺序即索引中的展示顺序)
@@ -42,6 +42,7 @@ CATEGORIES = [
     ('Pwn', '二进制漏洞利用:pwntools 模板 / shellcode'),
     ('Reverse', '逆向:z3 / angr / pyc 修复 / ARM 模拟'),
     ('Misc', '杂项:压缩包 / 文件修复 / CRC32 / 迷宫 / Brainfuck'),
+    ('Writeups', 'WP 实战做题脚本:SSTI / 代码审计 / 文件上传 / 文件包含 真题利用链'),
 ]
 
 INDEX_FILE = 'SCRIPTS-INDEX.md'
