@@ -1,25 +1,25 @@
 # SCRIPTS-INDEX — 全量脚本索引
 
-> 由 `gen_index.py` 自动生成, 覆盖仓库内**每一个 .py 脚本**(共 195 个)。新增/修改脚本后运行 `python gen_index.py` 刷新本文件; `python gen_index.py --check` 可校验是否过期。
+> 由 `gen_index.py` 自动生成, 覆盖仓库内**每一个 .py 脚本**(共 211 个)。新增/修改脚本后运行 `python gen_index.py` 刷新本文件; `python gen_index.py --check` 可校验是否过期。
 >
 > 说明列取自脚本模块 docstring 首行; “(老脚本) 目录名”表示早期收集的无 docstring 脚本, 按目录题型理解, 用法见 README 对应分类表或脚本内注释。
 > 依赖列只列**第三方包**(安装: `pip install -r requirements.txt`, 环境自检: `python check_env.py`)。
 
 ## 目录
 
-- [Crypto — 密码学 (53)](#crypto--密码学-53)
-- [Encoding — 编码转换 (31)](#encoding--编码转换-31)
-- [Steganography — 隐写 (19)](#steganography--隐写-19)
-- [TrafficeAnalysis — 流量分析 (24)](#trafficeanalysis--流量分析-24)
-- [LogAnalysis — 日志分析 (3)](#loganalysis--日志分析-3)
-- [Web — Web 安全 (13)](#web--web-安全-13)
-- [Pwn — 二进制漏洞利用 (6)](#pwn--二进制漏洞利用-6)
+- [Crypto — 密码学 (59)](#crypto--密码学-59)
+- [Encoding — 编码转换 (32)](#encoding--编码转换-32)
+- [Steganography — 隐写 (22)](#steganography--隐写-22)
+- [TrafficeAnalysis — 流量分析 (25)](#trafficeanalysis--流量分析-25)
+- [LogAnalysis — 日志分析 (4)](#loganalysis--日志分析-4)
+- [Web — Web 安全 (14)](#web--web-安全-14)
+- [Pwn — 二进制漏洞利用 (7)](#pwn--二进制漏洞利用-7)
 - [Reverse — 逆向 (7)](#reverse--逆向-7)
-- [Misc — 杂项 (26)](#misc--杂项-26)
+- [Misc — 杂项 (28)](#misc--杂项-28)
 - [Writeups — WP 实战做题脚本 (11)](#writeups--wp-实战做题脚本-11)
 - [仓库工具(根目录) (2)](#仓库工具根目录-2)
 
-## Crypto — 密码学 (53)
+## Crypto — 密码学 (59)
 
 > 密码学:RSA 全家桶 / 古典密码 / 对称加密 / 哈希
 
@@ -31,8 +31,10 @@
 | `DES_Python-master/des_1.py` | (老脚本) DES_Python-master | — | — | 248 |
 | `DES_Python-master/desstruct.py` | (老脚本) DES_Python-master | — | — | 89 |
 | `factordb查询/factordb.py` | factordb 在线分解 n + 本地试除兜底(补充题型: Crypto/RSA) | requests | — | 155 |
+| `Hill密码/hill.py` | hill.py — Hill 希尔密码加解密(n 阶矩阵 mod 26, 古典密码高频题) | — | ✅ `--selftest` | 125 |
 | `md5爆破/md5-brust.py` | (老脚本) md5爆破 | — | — | 14 |
 | `Nihilist密码/nihilist.py` | Nihilist 密码解密 — 基于 5x5 密钥矩阵的替换密码(py3 移植版) | — | — | 24 |
+| `Playfair密码/playfair.py` | playfair.py — Playfair 普莱费尔密码加解密(古典密码高频题) | — | ✅ `--selftest` | 111 |
 | `rot/rot.py` | (老脚本) rot | — | — | 13 |
 | `RSA综合脚本利用/e=3 (小公钥指数攻击) (小明文攻击) (tereotyped messages攻击)/rsa1.py` | (老脚本) e=3 (小公钥指数攻击) (小明文攻击) (tereotyped messages攻击) | gmpy2, libnum | — | 17 |
 | `RSA综合脚本利用/共模攻击+base64隐写/exp.py` | (老脚本) 共模攻击+base64隐写 | gmpy2, libnum, pycryptodome | — | 59 |
@@ -68,18 +70,22 @@
 | `toy密码/toy.py` | (老脚本) toy密码 | — | — | 19 |
 | `XOR自动爆破/xor_brute.py` | XOR 爆破工具(补充题型: Crypto/Reverse 通用) | — | — | 127 |
 | `云影密码/yunying.py` | yunying.py — 云影密码(0/8 密码)编解码(攻防世界等平台高频 misc) | — | ✅ `--selftest` | 108 |
+| `仿射密码爆破/affine_brute.py` | affine_brute.py — 仿射密码(Affine)全密钥空间爆破(无密钥自动破译) | — | ✅ `--selftest` | 93 |
 | `变异凯撒/encode_caesar.py` | (老脚本) 变异凯撒 | — | — | 9 |
 | `变异凯撒/variant_caesar.py` | (老脚本) 变异凯撒 | — | — | 9 |
+| `哈希类型识别/hash_identify.py` | hash_identify.py — 哈希类型识别 + hashcat/john 破解命令速查(通用工具) | — | ✅ `--selftest` | 120 |
 | `哈希长度扩展攻击/hash_ext.py` | hash_ext 哈希长度扩展攻击(md5/sha1) | — | ✅ `--selftest` | 196 |
 | `四方密码/sifang.py` | (老脚本) 四方密码 | — | — | 65 |
 | `培根密码/bacon.py` | 培根密码(Bacon Cipher) 加解密(补充题型: Crypto/古典密码) | — | — | 143 |
 | `常用反解密脚本/cryp-1.py` | (老脚本) 常用反解密脚本 | — | — | 8 |
+| `当铺密码/dangpu.py` | dangpu.py — 当铺密码编解码(Misc/Crypto 高频: 汉字笔画出头数对应数字) | — | ✅ `--selftest` | 77 |
 | `摩斯密码/morse.py` | 摩斯密码 加解密脚本(补充题型: Crypto/编码) | — | — | 128 |
+| `敲击码/tapcode.py` | tapcode.py — 敲击码(Tap code / Knock code)编解码(古典密码/Misc 高频) | — | ✅ `--selftest` | 86 |
 | `栅栏密码/railfence.py` | 栅栏密码(Rail Fence Cipher) 加解密与爆破(补充题型: Crypto/古典密码) | — | — | 128 |
 | `维吉尼亚加密/exp.py` | (老脚本) 维吉尼亚加密 | — | — | 11 |
 | `维吉尼亚密钥爆破/vigenere_brute.py` | vigenere_brute.py — 维吉尼亚密码密钥爆破(重合指数 + 卡方频率分析) | — | ✅ `--selftest` | 183 |
 
-## Encoding — 编码转换 (31)
+## Encoding — 编码转换 (32)
 
 > 编码转换:Base 系列 / hex / 二进制 / 字符统计
 
@@ -112,12 +118,13 @@
 | `文本转gbk编码/1.py` | (老脚本) 文本转gbk编码 | — | — | 8 |
 | `曼彻斯特编码/decode_man.py` | (老脚本) 曼彻斯特编码 | — | — | 33 |
 | `替换脚本/space.py` | (老脚本) 替换脚本 | — | — | 8 |
+| `行尾空白隐写/trailing_ws.py` | trailing_ws.py — 行尾空白隐写解析(空格/Tab 当二进制, Misc/Encoding 常见) | — | ✅ `--selftest` | 111 |
 | `谍报-替换普通话/tihuan.py` | (老脚本) 谍报-替换普通话 | — | — | 13 |
 | `进制互相转换/二进制高位补0/test.py` | (老脚本) 二进制高位补0 | — | — | 10 |
 | `进制转化字符脚本/二进制转ascii/1.py` | (老脚本) 二进制转ascii | — | — | 9 |
 | `进制转化字符脚本/循环遍历减去1-128数的ASCII码.py` | (老脚本) 进制转化字符脚本 | — | — | 15 |
 
-## Steganography — 隐写 (19)
+## Steganography — 隐写 (22)
 
 > 隐写:图片 / 音频 / 零宽字符 / 二维码
 
@@ -127,12 +134,14 @@
 | `decode_image.py` | — | — | — | 20 |
 | `EXIF信息提取/exif_dump.py` | 图片 EXIF/元信息提取(补充题型: Misc/Forensics) | pillow | — | 85 |
 | `GIF帧时间隐写/gif_frames.py` | gif_frames GIF 帧分离 / 帧延时分析 | pillow | ✅ `--selftest` | 94 |
+| `GIF拆帧/gif_frames.py` | gif_frames.py — GIF 拆帧导出(帧序列/帧延迟分析, 图片隐写高频题型) | pillow | ✅ `--selftest` | 103 |
 | `LSB隐写/lsb.py` | PNG LSB 隐写 嵌入/提取(补充题型: Misc/图片隐写) | pillow | — | 132 |
 | `PNG结构分析/png_analyze.py` | png_analyze PNG 结构分析 / CRC 修复(py3 完善版) | pillow | ✅ `--selftest` | 173 |
 | `RGB转图片/rgb.py` | (老脚本) RGB转图片 | pillow | — | 19 |
 | `steghide爆破密码/steghide-brute.py` | (老脚本) steghide爆破密码 | — | — | 46 |
 | `二维码解码/qr_decode.py` | qr_decode 二维码解码(opencv / pyzbar 双引擎) | numpy, opencv-python, pillow, pyzbar, qrcode | ✅ `--selftest` | 104 |
 | `内存数据转图片/img_solve.py` | img_solve 内存 dump 数据转图片 | pillow | ✅ `--selftest` | 107 |
+| `双图差分异或/img_diff.py` | img_diff.py — 双图差分/异或还原空间域盲水印(图片隐写高频题型) | numpy, pillow | ✅ `--selftest` | 98 |
 | `图片爆破宽高/1.py` | (老脚本) 图片爆破宽高 | — | — | 28 |
 | `图片爆破宽高/2.py` | (老脚本) 图片爆破宽高 | — | — | 30 |
 | `图片马生成/imgshell.py` | imgshell 图片马生成/校验 | pillow | ✅ `--selftest` | 104 |
@@ -141,9 +150,10 @@
 | `红绿灯-二进制/traffic.py` | (老脚本) 红绿灯-二进制 | pillow | — | 29 |
 | `零宽字符隐写/zwstego.py` | zwstego 零宽字符隐写 编码/解码 | — | ✅ `--selftest` | 127 |
 | `音频摩斯解析/audio_morse.py` | audio_morse 音频摩斯码解析(wav) | — | ✅ `--selftest` | 181 |
+| `音频频谱图/audio_spectrogram.py` | audio_spectrogram.py — WAV 音频转频谱图(音频隐写高频题型) | numpy, pillow | ✅ `--selftest` | 116 |
 | `频域盲水印/pinyubwm.py` | (老脚本) 频域盲水印 | numpy, opencv-python | — | 57 |
 
-## TrafficeAnalysis — 流量分析 (24)
+## TrafficeAnalysis — 流量分析 (25)
 
 > 流量分析:USB / WEB / 邮件 / Telnet / 修复(一键入口 solve.py)
 
@@ -151,6 +161,7 @@
 |---|---|---|---|---|
 | `__init__.py` | — | — | — | 1 |
 | `decode_modbus.py` | — | pyshark | — | 28 |
+| `DNS隧道解析/dns_tunnel.py` | dns_tunnel.py — DNS 隧道数据提取(流量分析高频题型) | — | ✅ `--selftest` | 190 |
 | `extract_objects.py` | extract_objects.py — 从流量中提取传输的文件(通用技能) | — | — | 153 |
 | `find_admin_url.py` | find_admin_url.py — 后台目录爆破分析(题型:黑客扫描到的后台登录地址是什么?) | — | — | 110 |
 | `find_login.py` | find_login.py — 后台账号爆破分析(题型:黑客使用了什么账号密码登录了web后台?) | — | — | 120 |
@@ -174,7 +185,7 @@
 | `USB鼠标流量解析/usb_mouse.py` | usb_mouse USB 鼠标流量还原轨迹 | pillow | ✅ `--selftest` | 165 |
 | `流量数据提取脚本/1.py` | 从 pcap 提取 ICMP 回显响应(type 0) payload 末 8 字节(py3 移植版) | scapy | — | 23 |
 
-## LogAnalysis — 日志分析 (3)
+## LogAnalysis — 日志分析 (4)
 
 > 日志分析
 
@@ -182,9 +193,10 @@
 |---|---|---|---|---|
 | `__init__.py` | — | — | — | 1 |
 | `access_log分析/access_log_analyze.py` | access_log_analyze.py — Nginx/Apache 访问日志统计分析(蓝队/取证必备) | — | ✅ `--selftest` | 229 |
+| `PowerShell编码命令解码/ps_decode.py` | ps_decode.py — PowerShell 编码命令解码(蓝队/日志取证高频) | — | ✅ `--selftest` | 111 |
 | `日志匹配/1.py` | (老脚本) 日志匹配 | — | — | 11 |
 
-## Web — Web 安全 (13)
+## Web — Web 安全 (14)
 
 > Web 安全:SQLi / SSTI / JWT / 反序列化 / 信息泄露
 
@@ -201,10 +213,11 @@
 | `python-Picke序列化/坐标转化脚本/2.py` | (老脚本) 坐标转化脚本 | — | — | 31 |
 | `SQL盲注自动化/blind_sqli.py` | SQL 盲注自动化模板(补充题型: Web/SQL注入) | requests | — | 144 |
 | `SSTI利用/ssti_probe.py` | SSTI 模板注入探测与利用(补充题型: Web/SSTI) | requests | — | 109 |
+| `XXE_payload生成/xxe_payloads.py` | xxe_payloads.py — XXE(XML 外部实体注入)payload 生成器(Web 高频题型) | — | ✅ `--selftest` | 102 |
 | `双参数爆破脚本/brust.py` | (老脚本) 双参数爆破脚本 | requests | — | 5 |
 | `目录扫描/dirscan.py` | dirscan 轻量目录/文件扫描 | requests | ✅ `--selftest` | 133 |
 
-## Pwn — 二进制漏洞利用 (6)
+## Pwn — 二进制漏洞利用 (7)
 
 > 二进制漏洞利用:pwntools 模板 / shellcode
 
@@ -216,6 +229,7 @@
 | `pwntools模板/simple_template.py` | simple_template 最小化 pwn exp 骨架 | pwntools | — | 42 |
 | `shellcode生成与解析/shellcode_generator.py` | shellcode_generator 直接汇编生成 shellcode | pwntools | — | 80 |
 | `shellcode生成与解析/shellcode_parser.py` | shellcode_parser 从 .s 源码汇编出 ELF 并提取 .text 中的 shellcode | pwntools | — | 60 |
+| `溢出偏移定位/cyclic_offset.py` | cyclic_offset.py — 栈溢出偏移定位(De Bruijn 模式, pwn 高频辅助) | — | ✅ `--selftest` | 115 |
 
 ## Reverse — 逆向 (7)
 
@@ -231,12 +245,13 @@
 | `z3求解模板/z3_template.py` | z3 约束求解 CTF 模板(补充题型: Reverse) | z3-solver | — | 90 |
 | `相邻异或还原/xor.py` | xor.py 相邻字符异或链还原 flag(逆向题常见编码) | — | ✅ `--selftest` | 77 |
 
-## Misc — 杂项 (26)
+## Misc — 杂项 (28)
 
 > 杂项:压缩包 / 文件修复 / CRC32 / 迷宫 / Brainfuck
 
 | 脚本 | 说明 | 依赖 | 自测 | 行数 |
 |---|---|---|---|---|
+| `ASCII字符画转图片/ascii2img.py` | ascii2img.py — 字符画转灰度图片(把 ASCII art 还原成图, Misc/隐写高频) | numpy, pillow | ✅ `--selftest` | 85 |
 | `CRC32校验爆破/crc-1byte.py` | (老脚本) CRC32校验爆破 | — | — | 21 |
 | `CRC32校验爆破/crc-2byte.py` | (老脚本) CRC32校验爆破 | — | — | 23 |
 | `CRC32校验爆破/crc-3byte.py` | (老脚本) CRC32校验爆破 | — | — | 24 |
@@ -245,6 +260,7 @@
 | `CRC32校验爆破/crc32/crc32.py` | (老脚本) crc32 | — | — | 348 |
 | `CRC32校验爆破/crc32/test.py` | (老脚本) crc32 | — | — | 73 |
 | `CRC32校验爆破/crc32/test_data.py` | (老脚本) crc32 | — | — | 296 |
+| `EML邮件解析/eml_parse.py` | eml_parse.py — .eml 邮件解析(头字段/正文/附件导出, 取证+Misc 高频题型) | — | ✅ `--selftest` | 127 |
 | `Python-Brainfuck-master/brainfuck.py` | (老脚本) Python-Brainfuck-master | — | — | 72 |
 | `Python-Brainfuck-master/getch.py` | (老脚本) Python-Brainfuck-master | — | — | 44 |
 | `robot迷宫求解/robot_maze.py` | robot_maze 迷宫求解(py3 移植完善版) | pillow | ✅ `--selftest` | 640 |

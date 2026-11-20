@@ -1,6 +1,6 @@
 # ctf-scripts
 
-CTF 做题脚本集:195 个现成脚本,覆盖 **Web / Pwn / Reverse / Crypto / Misc / 隐写 / 流量 / 日志 / WP 实战** 九大类。
+CTF 做题脚本集:211 个现成脚本,覆盖 **Web / Pwn / Reverse / Crypto / Misc / 隐写 / 流量 / 日志 / WP 实战** 九大类。
 每个脚本可直接运行;较新的脚本**无参数运行即跑内置自测**(输出 `OK/FAIL`),实战时按用法传参或修改硬编码参数。
 
 ## 环境
@@ -38,6 +38,11 @@ python TrafficeAnalysis/solve.py TrafficeAnalysis/samples/usb_keyboard.pcap
 python Crypto/摩斯密码/morse.py
 python Web/JWT伪造/jwt_forge.py --selftest
 
+# 2026-11-21 新增高频题型示例
+python TrafficeAnalysis/DNS隧道解析/dns_tunnel.py tunnel.pcap      # DNS 隧道提取+自动解码
+python Steganography/音频频谱图/audio_spectrogram.py sound.wav     # 频谱图里读 flag
+python Pwn/溢出偏移定位/cyclic_offset.py --find 0x62616164          # 栈溢出偏移秒算
+
 # 实战示例
 python Misc/zip伪加密修复/zip_fix.py fake_enc.zip --fix
 python Steganography/二维码解码/qr_decode.py flag.png
@@ -47,7 +52,7 @@ python Writeups/代码审计/flask-session解密/session.py --selftest
 python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 ```
 
-> 找某个具体脚本?全量 195 个 .py 的自动索引见 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)
+> 找某个具体脚本?全量 211 个 .py 的自动索引见 [SCRIPTS-INDEX.md](SCRIPTS-INDEX.md)
 > (由 `python gen_index.py` 生成,含每个脚本的说明 / 第三方依赖 / 自测标记;
 > 新增脚本后重跑一次即可刷新,`python gen_index.py --check` 可校验是否过期)。
 
@@ -67,6 +72,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | `find_webshell.py` | webshell 上传分析(multipart+菜刀/蚁剑) | `python find_webshell.py x.pcap [导出目录]` |
 | `usb_keyboard.py` | USB 键盘 HID 键码还原(含 Shift) | `python usb_keyboard.py x.pcap [--raw]` |
 | `ICMP数据提取/icmp_data.py` | ICMP echo payload 提取(纯标准库,4 种链路层) | `python icmp_data.py x.pcap [--save out.bin --hex]` |
+| `DNS隧道解析/dns_tunnel.py` | DNS 隧道提取:子域名/TXT 拼接自动 hex/base32/base64 解码(纯标准库) | `python dns_tunnel.py x.pcap [--suffix data.com --raw]` |
 | `usb_mouse.py` | USB 鼠标轨迹画图(all/left/right) | `python usb_mouse.py x.pcap [out.png]` |
 | `smtp_mail.py` | SMTP/POP3 邮件解析+附件导出 | `python smtp_mail.py x.pcap [导出目录]` |
 | `telnet_session.py` | Telnet 会话还原+凭据配对 | `python telnet_session.py x.pcap` |
@@ -91,6 +97,9 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | `图片爆破宽高/` | PNG IHDR 宽高 CRC32 爆破恢复 | 修改脚本内 CRC 值与图片路径后运行 |
 | `PNG结构分析/png_analyze.py` | PNG 块列举/提取+CRC 批量修复+tEXt 预览 | `python png_analyze.py list x.png` / `fix-crc` |
 | `GIF帧时间隐写/gif_frames.py` | GIF 帧分离+延时离群分析(MAD) | `python gif_frames.py -f x.gif --odd` |
+| `GIF拆帧/gif_frames.py` | GIF 逐帧导出 PNG+帧延迟列表(拆帧看图/配合扫码) | `python gif_frames.py x.gif [--info -o outdir]` |
+| `音频频谱图/audio_spectrogram.py` | WAV 转频谱图 PNG(numpy FFT,flag 画频谱题型)+主峰频率 | `python audio_spectrogram.py x.wav [--peak]` |
+| `双图差分异或/img_diff.py` | 双图逐像素差分/XOR 还原空间域盲水印(自动缩放对齐) | `python img_diff.py a.png b.png [-m diff/xor --scale 4]` |
 | `EXIF信息提取/exif_dump.py` | EXIF/PNG tEXt 元信息全 dump | `python exif_dump.py x.jpg` |
 | `图片马生成/imgshell.py` | 图片马合成与 payload 偏移校验 | `python imgshell.py --make 图.jpg -p shell.php -o out.jpg` |
 | `steghide爆破密码/steghide-brute.py` | steghide 字典爆破(需装 steghide) | 修改脚本内图片路径后运行 |
@@ -108,6 +117,12 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 |---|---|---|
 | `RSA综合脚本利用/` | **19 种 RSA 攻击场景**全集(小明文/共模/Wiener/dp泄露/CRT/pq接近等) | 按已知条件找对应子目录,改参数运行 |
 | `factordb查询/factordb.py` | factordb 在线分解 n + 本地试除/Pollard rho 兜底 | `python factordb.py -n <N>`(离线加 `--local`) |
+| `仿射密码爆破/affine_brute.py` | 仿射密码全 312 密钥爆破,卡方打分+flag/提示词置顶 | `python affine_brute.py "密文" [-w FLAG -n 10]` |
+| `Playfair密码/playfair.py` | Playfair 加解密(5x5,I/J 合并,含维基经典向量自测) | `python playfair.py -e 明文 -k 密钥` / `-d` |
+| `Hill密码/hill.py` | Hill 密码任意 n 阶加解密(mod 26 伴随矩阵求逆) | `python hill.py -e ACT -k "6,24,1;13,16,10;20,17,15"` |
+| `敲击码/tapcode.py` | 敲击码(5x5,K→C)编解码,数字对/点划混排兼容 | `python tapcode.py -e HELLO` / `-d "23 15"` |
+| `当铺密码/dangpu.py` | 当铺密码(汉字出头数→数字)编解码,--map 自定义变体 | `python dangpu.py -d "中人工大"` / `--show` |
+| `哈希类型识别/hash_identify.py` | 按长度/前缀识别哈希类型,给 hashcat/john 命令,--dict 简单字典爆破 | `python hash_identify.py <hash>` / `--dict wordlist.txt` |
 | `维吉尼亚密钥爆破/vigenere_brute.py` | 维吉尼亚无密钥爆破(重合指数定长+卡方定移位) | `python vigenere_brute.py cipher.txt [--keylen N --crib flag{]` |
 | `云影密码/yunying.py` | 云影密码(0/8 密码)编解码 | `python yunying.py -d "8842101226885448"` / `-e HELLO` |
 | `AES加解密模板/aes_template.py` | AES ECB/CBC 加解密,hex/base64 自动识别,PKCS7 | `python aes_template.py -m d -a ecb -k <hex密钥> -c <密文>` |
@@ -146,6 +161,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | `去重/` | 文本去重 / hex 转字符 / base64-zip | 改数据运行 |
 | `替换脚本/space.py` | 行长短编码为 0/1 二进制 | 数据放 attachment.txt 后运行 |
 | `曼彻斯特编码/decode_man.py` | 曼彻斯特/差分曼彻斯特解码 | 修改二进制串后运行 |
+| `行尾空白隐写/trailing_ws.py` | 行尾空格/Tab 承载二进制,3 种约定自动试解+写入 | `python trailing_ws.py x.txt` / `-e "flag{}"` |
 
 ## Web/ — Web 安全
 
@@ -162,6 +178,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | `DS_Store解析/ds_store_exploit.py` | .DS_Store 泄露利用(远程递归/本地解析/--grep) | `python ds_store_exploit.py -u http://x/.DS_Store` / `-f 本地文件` |
 | `目录扫描/dirscan.py` | 轻量后台/备份扫描(内置词表+多线程) | `python dirscan.py -u http://x/ [-w 字典 --ext php,bak]` |
 | `gopher协议生成/gopher.py` | SSRF 打内网 Redis/HTTP,RESP+二次编码 | `python gopher.py --type redis --cmd "set x 1"` |
+| `XXE_payload生成/xxe_payloads.py` | XXE 六大模板一键生成(文件读/PHP filter/OOB HTTP+FTP/报错回显) | `python xxe_payloads.py CLASSIC --file /flag` / `--list` |
 | `双参数爆破脚本/brust.py` | 双参数组合爆破(如邀请码+用户ID) | 修改脚本内 url 与参数列表后运行 |
 
 ## Reverse/ — 逆向
@@ -187,6 +204,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | `pwntools模板/README.md` | checksec/cyclic/ROPgadget/one_gadget 武器链与 64 位栈对齐坑 | 阅读参考 |
 | `shellcode生成与解析/shellcode_generator.py` | 直接汇编生成 shellcode(i386/amd64) | `python shellcode_generator.py --arch amd64` |
 | `shellcode生成与解析/shellcode_parser.py` | 从 .s 汇编出 ELF 并提取 .text shellcode | `python shellcode_parser.py -s shellcode.s` |
+| `溢出偏移定位/cyclic_offset.py` | De Bruijn 模式生成/崩溃值偏移定位(与 pwnlib cyclic 通用,免 pwntools) | `python cyclic_offset.py --gen 200` / `--find 0x62616164` |
 
 > pwntools 本地进程调试需 WSL/Linux;Windows 直接 remote 打远程。
 
@@ -205,6 +223,8 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | `批量修改文件名后缀/modify-suffix.py` | 批量追加后缀(如 .jpg) | 修改 path 后运行 |
 | `Python-Brainfuck-master/` | Brainfuck 解释器 | 代码放 `1.txt` 后 `python brainfuck.py` |
 | `坐标画图/coord_plot.py` | 坐标文本画图(每行 x,y 或空格多对,多笔画分隔,自动归一化) | `python coord_plot.py points.txt -o out.png [--mode point]` |
+| `ASCII字符画转图片/ascii2img.py` | 字符画按亮度梯度还原灰度图(配合扫码,--charset/--invert) | `python ascii2img.py art.txt -o out.png` |
+| `EML邮件解析/eml_parse.py` | .eml 头字段/正文解码/附件导出+flag 正则(纯标准库) | `python eml_parse.py mail.eml [--attach outdir]` |
 | `robot迷宫求解/robot_maze.py` | 文本/图片迷宫求解最短路+随机迷宫生成 | `python robot_maze.py --solve maze.txt` / `--pic maze.png` |
 | `迷宫路径记录GUI/maze_run.py` | 方向键走迷宫,记录 wasd 序列(GUI) | `python maze_run.py --chars 起点,终点,墙 --out out.txt` |
 | `数学题/取模/` | 取模等数学计算辅助 | 改数据运行 |
@@ -217,6 +237,7 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 |---|---|---|
 | `日志匹配/1.py` | 从 URL 编码的 LFI 日志中提取被包含文件的输出 | 日志放 `data.txt` 后运行 |
 | `access_log分析/access_log_analyze.py` | Nginx/Apache 日志统计:Top IP/URI/状态码+SQLi/扫描器/webshell/爆破检测 | `python access_log_analyze.py access.log [--top 10 --burst 60 --grep flag]` |
+| `PowerShell编码命令解码/ps_decode.py` | 日志/ps1 中 `-enc`/`FromBase64String` 提取解码(UTF-16LE) | `python ps_decode.py sec.log [--grep flag]` |
 
 ## Writeups/ — WP 实战做题脚本
 
@@ -248,11 +269,13 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | pcap 要提文件/扫描器/账密/webshell | `TrafficeAnalysis/extract_objects.py`、`find_*.py`(或直接 `solve.py` 一键) |
 | pcap 有邮件/Telnet | `TrafficeAnalysis/smtp_mail.py`、`telnet_session.py` |
 | pcap 里 ICMP echo payload 藏数据 | `TrafficeAnalysis/ICMP数据提取/icmp_data.py`(或 `solve.py` 自动识别) |
+| pcap 大量查询同一域名的子域名(DNS 隧道) | `TrafficeAnalysis/DNS隧道解析/dns_tunnel.py` |
 | 流量包损坏打不开 | `TrafficeAnalysis/pcapfix.py` |
 | 图片打不开/尺寸不对 | `Steganography/图片爆破宽高/`、`PNG结构分析/png_analyze.py` |
 | 图片能打开但怀疑尾巴藏了 zip/文本 | `Steganography/文件尾数据检测/carve_tail.py` |
 | PNG LSB / 盲水印 / steghide / 零宽 | `Steganography/` 对应目录 |
-| GIF 帧延时 / 音频摩斯 / 二维码 | `Steganography/GIF帧时间隐写/`、`音频摩斯解析/`、`二维码解码/` |
+| GIF 帧延时 / 拆帧看图 / 音频摩斯 / 音频频谱 flag | `Steganography/GIF帧时间隐写/`、`GIF拆帧/`、`音频摩斯解析/`、`音频频谱图/` |
+| 两张图疑似盲水印(空间域对比) | `Steganography/双图差分异或/img_diff.py`(频域用 `频域盲水印/`) |
 | 数据是 0/1 矩阵 / RGB 元组 / 图片序列 | `字节转二维码/`、`RGB转图片/`、`红绿灯-二进制/` |
 | 内存 dump 还原图片 | `Steganography/内存数据转图片/img_solve.py` |
 | ZIP 伪加密 / 爆破 / 多层嵌套 | `Misc/zip伪加密修复/`、`zip密码爆破/`、`批量解压压缩包+带密码/` |
@@ -261,11 +284,15 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | RSA 各种攻击 | `Crypto/RSA综合脚本利用/` 按已知条件选;先 `factordb.py -n` 试分解 |
 | AES/DES/TEA 对称加密 | `Crypto/AES加解密模板/`、`DES_Python-master/`、`TEA加解密/` |
 | 古典密码(摩斯/培根/栅栏/维吉尼亚/凯撒变体…) | `Crypto/` 对应目录 |
+| Playfair / Hill / 敲击码 / 当铺 / 仿射 | `Crypto/Playfair密码/`、`Hill密码/`、`敲击码/`、`当铺密码/`、`仿射密码爆破/` |
+| 拿到一串哈希不知道是什么类型 | `Crypto/哈希类型识别/hash_identify.py` |
+| 文本行尾有可疑空格/Tab | `Encoding/行尾空白隐写/trailing_ws.py` |
 | 维吉尼亚密文不知道密钥 | `Crypto/维吉尼亚密钥爆破/vigenere_brute.py`(IC+卡方自动破) |
 | 密文全是 0 和 8(数字串按 0 分段) | `Crypto/云影密码/yunying.py` |
 | Base64 解出来乱码 / 多次编码 / 换表 | `Encoding/Base/` 对应子工具 |
 | hex 倒序 / 减偏移 / 二进制反转 | `Encoding/hex倒叙/`、`hex减位/`、`二进制每8位倒序/` |
 | SQL 盲注 / SSTI / JWT / PHP 反序列化 | `Web/` 对应目录 |
+| XXE(有回显/无回显外带/报错读文件) | `Web/XXE_payload生成/xxe_payloads.py` |
 | .git / .DS_Store 泄露 | `Web/Git泄漏解析/`、`DS_Store解析/` |
 | SSRF 打内网 Redis | `Web/gopher协议生成/` |
 | SSTI 编码绕过 / 找 os 子类下标 | `Writeups/SSTI/` |
@@ -273,13 +300,17 @@ python Writeups/文件包含/仿射密码爆破/affine_cipher.py --selftest
 | md5 数字前缀校验 | `Writeups/代码审计/md5前缀爆破/EasySearch.py` |
 | .htaccess 上传 LFI / strip_tags 崩溃 LFI | `Writeups/代码审计/htaccess上传LFI综合利用/`、`Writeups/文件包含/phpfilter崩溃LFI/` |
 | 上传后文件名被 uniqid 重写 | `Writeups/文件上传/thinkphp上传文件名爆破/` |
-| 仿射 / 希尔密码 | `Writeups/文件包含/仿射密码爆破/`、`希尔密码加解密/` |
+| 仿射 / 希尔密码(含无密钥爆破) | `Crypto/仿射密码爆破/`、`Crypto/Hill密码/`(真题利用链见 `Writeups/文件包含/`) |
 | URL 校验用 Unicode/IDNA 字符绕过 | `Writeups/文件包含/idna编码绕过探测/` |
 | 约束求解 / 符号执行 / pyc 修复 | `Reverse/z3求解模板/`、`angr求解模板/`、`pyc文件头修复/` |
 | 逆向 dump 出相邻异或数组 | `Reverse/相邻异或还原/xor.py` |
 | ret2libc / 格式化字符串 / shellcode | `Pwn/pwntools模板/`、`Pwn/shellcode生成与解析/` |
+| 栈溢出崩溃值求 padding 偏移 | `Pwn/溢出偏移定位/cyclic_offset.py`(--find 0x… 秒算) |
 | LFI 日志包含提取 | `LogAnalysis/日志匹配/` |
 | access log 统计/找攻击者/爆破 IP | `LogAnalysis/access_log分析/access_log_analyze.py` |
+| 日志/脚本里 PowerShell -enc 编码命令 | `LogAnalysis/PowerShell编码命令解码/ps_decode.py` |
+| .eml 邮件取证(头/正文/附件) | `Misc/EML邮件解析/eml_parse.py` |
+| 字符画还原成图片(再扫码) | `Misc/ASCII字符画转图片/ascii2img.py` |
 | Brainfuck / 迷宫 | `Misc/Python-Brainfuck-master/`、`robot迷宫求解/` |
 | 一堆坐标画图出 flag | `Misc/坐标画图/coord_plot.py` |
 | 安卓 Java/native 函数 hook、抓 Cipher 密钥 | `Reverse/Frida hook模板/frida_hook.py` |
@@ -305,6 +336,24 @@ Pwn/符号执行(建议 WSL):`pwntools` `angr` `LibcSearcher`
 
 ## 更新日志
 
+- **2026-11-21** 全库 195→211 个脚本。**新增 16 个高频题型脚本填补缺口**(全部带 docstring 用法与离线 `--selftest`,16 项自测实测全过;origin/upstream 无新提交):
+  - `Crypto/Playfair密码/playfair.py` — Playfair 加解密(5x5 I/J 合并,自测含维基经典向量 BMODZ…);
+  - `Crypto/Hill密码/hill.py` — Hill 任意 n 阶加解密(mod 26 伴随矩阵求逆,ACT→POH 经典向量);
+  - `Crypto/仿射密码爆破/affine_brute.py` — 仿射 312 密钥全爆,卡方打分+flag/crib 置顶(自测真实还原 a=5,b=8);
+  - `Crypto/敲击码/tapcode.py` — 敲击码编解码(5x5 K→C,数字对/点划混排);
+  - `Crypto/当铺密码/dangpu.py` — 当铺密码(田0由1中2…春9)编解码,`--map` 兼容变体;
+  - `Crypto/哈希类型识别/hash_identify.py` — 长度/前缀识别哈希类型+hashcat/john 命令速查+`--dict` 字典爆破;
+  - `Encoding/行尾空白隐写/trailing_ws.py` — 行尾空格/Tab 隐写 3 种约定自动试解+编码写回;
+  - `Steganography/GIF拆帧/gif_frames.py` — GIF 逐帧导出 PNG+帧延迟(自测内存合成 3 帧 GIF 验证);
+  - `Steganography/音频频谱图/audio_spectrogram.py` — WAV→频谱图 PNG(numpy FFT),`--peak` 主峰频率(自测合成 440Hz 定位);
+  - `Steganography/双图差分异或/img_diff.py` — 双图 diff/XOR 空间域盲水印还原(自动缩放对齐);
+  - `Misc/ASCII字符画转图片/ascii2img.py` — 字符画按亮度梯度还原灰度图(字符画→图片→扫码题型);
+  - `Misc/EML邮件解析/eml_parse.py` — .eml 头/正文/附件导出+flag 正则(纯标准库,自测内存构造邮件);
+  - `LogAnalysis/PowerShell编码命令解码/ps_decode.py` — 日志中 `-enc`/`FromBase64String` 提取解码(蓝队取证);
+  - `Web/XXE_payload生成/xxe_payloads.py` — XXE 六大模板参数化生成(文件读/PHP filter/OOB HTTP+FTP/报错回显);
+  - `Pwn/溢出偏移定位/cyclic_offset.py` — De Bruijn 生成/崩溃值偏移定位,与 pwnlib cyclic 前缀通用(免 pwntools);
+  - `TrafficeAnalysis/DNS隧道解析/dns_tunnel.py` — DNS 隧道子域名/TXT 提取+hex/base32/base64 自动解码(基于本地 pcaplib,自测含内存构造 pcap)。
+  同步:分类表/特征速查/快速开始/SCRIPTS-INDEX 全量刷新;"仿射/希尔"速查条目改为指向 Crypto 主条目。
 - **2026-11-20** 全库体检:32 个 `--selftest` 脚本实测全部通过,全库编译零错误,与 origin 同步。**新增 7 个脚本填补分类缺口**:
   - `LogAnalysis/access_log分析/access_log_analyze.py` — Nginx/Apache 日志统计(Top IP/URI/状态码)+ SQLi/扫描器/webshell/爆破检测(蓝队/取证题型,LogAnalysis 此前仅 1 个脚本);
   - `TrafficeAnalysis/ICMP数据提取/icmp_data.py` — 纯标准库 ICMP echo payload 提取(4 种链路层,自测含内存构造 pcap 回解),并挂入 `solve.py` 一键入口(无常见端口但有 ICMP 时自动调用);
